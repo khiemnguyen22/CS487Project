@@ -50,9 +50,9 @@ public class Login extends AppCompatActivity {
         //reset forgotten password
         reset = new AlertDialog.Builder(this);
         inflater = this.getLayoutInflater();
-        //firebase user
         // added comment//
         //dialog for reset password
+        fireAuth = FirebaseAuth.getInstance();
         forgetpasswordbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,7 +62,7 @@ public class Login extends AppCompatActivity {
                         .setPositiveButton("Reset", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                EditText email = view.findViewById(R.id.reset_email);
+                                 EditText email = view.findViewById(R.id.reset_email);
                                 if(email.getText().toString().isEmpty()){
                                     email.setError("Email is Required");
                                 }

@@ -19,6 +19,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
     Button logout;
+    Button mapsView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +34,15 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+        mapsView = findViewById(R.id.findRide);
+        mapsView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),MapsActivity.class));
+                finish();
+            }
+        });
+
 
     }
 
