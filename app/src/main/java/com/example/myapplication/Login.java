@@ -52,7 +52,7 @@ public class Login extends AppCompatActivity {
         inflater = this.getLayoutInflater();
         //firebase user
 
-
+        //dialog for reset password
         forgetpasswordbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
