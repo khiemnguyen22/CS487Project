@@ -11,15 +11,22 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     Button logout;
     Button mapsView;
+    FirebaseUser user;
+    private TextView fullName;
+    private String name;
+    private String email;
+    private TextView emailView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,19 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        fullName = findViewById(R.id.Name);
+        emailView = findViewById(R.id.Email);
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // Name, email address, and profile photo Url
+            name = user.getDisplayName();
+            email = user.getEmail();
+
+            fullName.setText(name);
+            emailView.setText(email);
+        }
 
 
     }
