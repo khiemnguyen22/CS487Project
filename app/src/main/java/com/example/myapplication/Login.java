@@ -51,7 +51,7 @@ public class Login extends AppCompatActivity {
         reset = new AlertDialog.Builder(this);
         inflater = this.getLayoutInflater();
         //firebase user
-
+        // added comment//
         //dialog for reset password
         forgetpasswordbtn.setOnClickListener(new View.OnClickListener() {
             @Override
