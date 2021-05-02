@@ -41,8 +41,8 @@ public class Login extends AppCompatActivity {
             }
         });
         //text field
-        username = findViewById(R.id.loginEmail);
-        password = findViewById(R.id.loginpassword);
+        username = (EditText) findViewById(R.id.loginEmail);
+        password = (EditText) findViewById(R.id.loginpassword);
 
         //buttons
         loginBtn = findViewById(R.id.signinbtn);
@@ -95,6 +95,7 @@ public class Login extends AppCompatActivity {
                     password.setError("Password Field is empty");
                 }
 
+                fireAuth = FirebaseAuth.getInstance();
                 //login user
                 fireAuth.signInWithEmailAndPassword(username.getText().toString(), password.getText().toString())
                         .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
