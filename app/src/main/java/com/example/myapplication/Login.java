@@ -85,6 +85,8 @@ public class Login extends AppCompatActivity {
             }
         });
 
+
+
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,6 +96,14 @@ public class Login extends AppCompatActivity {
                 if(password.getText().toString().isEmpty()){
                     password.setError("Password Field is empty");
                 }
+
+                DatabaseHelper db = new DatabaseHelper(Login.this, 3);
+                User loginUser = db.returnUser(username.getText().toString(), password.getText().toString());
+                SharedDBProperties.sharedUser.setEmail(loginUser.getEmail());
+                SharedDBProperties.sharedUser.setPassword(loginUser.getPassword());
+                SharedDBProperties.sharedUser.setFirstName(loginUser.getFirstName());
+                SharedDBProperties.sharedUser.setLastName(loginUser.getLastName());
+                SharedDBProperties.sharedUser.setPassword(loginUser.getLastName());
 
                 fireAuth = FirebaseAuth.getInstance();
                 //login user

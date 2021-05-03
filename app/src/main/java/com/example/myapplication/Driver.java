@@ -14,8 +14,8 @@ public class Driver extends User {
         liscensePlate = "";
     }
 
-    public Driver(String username,String password,String email,String firstName,String lastName,String make,String model,String year,String liscensePlate){
-        super(username, password, email, firstName, lastName);
+    public Driver(int id, String password,String email,String firstName,String lastName,String make,String model,String year,String liscensePlate){
+        super(id, password, email, firstName, lastName);
         this.make = make;
         this.model = model;
         this.year = year;

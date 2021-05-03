@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             name = user.getDisplayName();
             email = user.getEmail();
 
-            fullName.setText(name);
+            fullName.setText(SharedDBProperties.sharedUser.getFirstName() + " "+SharedDBProperties.sharedUser.getLastName());
             emailView.setText(email);
         }
 

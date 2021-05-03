@@ -21,7 +21,7 @@ public class Register extends AppCompatActivity {
     EditText registerfirstname, registerlastname, registeremail, registerpassword, registerconfirmpass;
     Button registerUserButton, registerloginUserButton;
     FirebaseAuth fireAuth;
-
+    User u;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +61,8 @@ public class Register extends AppCompatActivity {
                 String password = registerpassword.getText().toString();
                 String confpassword = registerconfirmpass.getText().toString();
 
+
+
                 //Check if fields are empty before registering is available
 
                 if (firstName.isEmpty()) {
@@ -88,7 +90,29 @@ public class Register extends AppCompatActivity {
                 }
 
                 //if data is valid
+
+                // add user to database
                 Toast.makeText(Register.this,"Data is Valid",Toast.LENGTH_SHORT).show();
+                try{
+                    u = new User(0, confpassword, email, firstName, lastName);
+                    Toast.makeText(Register.this, "User created", Toast.LENGTH_SHORT).show();
+                }
+                catch(Exception e){
+                    Toast.makeText(Register.this, "Error creating an user", Toast.LENGTH_SHORT).show();
+                }
+                //update to current user
+                SharedDBProperties.sharedUser.setEmail(u.getEmail());
+                SharedDBProperties.sharedUser.setPassword(u.getPassword());
+                SharedDBProperties.sharedUser.setFirstName(firstName);
+                SharedDBProperties.sharedUser.setLastName(lastName);
+                SharedDBProperties.sharedUser.setPassword(u.getPassword());
+
+                DatabaseHelper databaseHelper= new DatabaseHelper(Register.this, 3);
+
+                boolean success = databaseHelper.addUser(u);
+                Toast.makeText(Register.this, "User added to database", Toast.LENGTH_SHORT).show();
+
+                // update current user
 
                 //firebase create user with email and password
                 fireAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
