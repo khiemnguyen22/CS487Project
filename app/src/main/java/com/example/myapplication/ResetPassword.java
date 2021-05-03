@@ -41,6 +41,12 @@ public class ResetPassword extends AppCompatActivity {
                 if(!usernewPassword.getText().toString().equals(userconfirmpassword.getText().toString())){
                     userconfirmpassword.setError("Password Does Not Match");
                 }
+
+                DatabaseHelper db = new DatabaseHelper(ResetPassword.this, 3);
+                boolean success = db.resetPassword(SharedDBProperties.sharedUser,usernewPassword.getText().toString());
+                if(success) {
+                    Toast.makeText(ResetPassword.this, "User password reset", Toast.LENGTH_SHORT).show();
+                }
                 user.updatePassword(usernewPassword.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

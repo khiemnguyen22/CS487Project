@@ -78,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.resetuserpassword){
             startActivity(new Intent(getApplicationContext(),ResetPassword.class));
         }
+        if(item.getItemId() == R.id.updateCreditCard){
+            startActivity(new Intent(getApplicationContext(),UpdateCreditCard.class));
+        }
         return super.onOptionsItemSelected(item);
     }
+
 }

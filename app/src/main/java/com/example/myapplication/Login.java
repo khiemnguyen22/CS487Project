@@ -103,7 +103,7 @@ public class Login extends AppCompatActivity {
                 SharedDBProperties.sharedUser.setPassword(loginUser.getPassword());
                 SharedDBProperties.sharedUser.setFirstName(loginUser.getFirstName());
                 SharedDBProperties.sharedUser.setLastName(loginUser.getLastName());
-                SharedDBProperties.sharedUser.setPassword(loginUser.getLastName());
+                SharedDBProperties.sharedUser.setPassword(loginUser.getPassword());
 
                 fireAuth = FirebaseAuth.getInstance();
                 //login user

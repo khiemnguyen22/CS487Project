@@ -86,8 +86,48 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return returnU;
     }
 
-    public boolean resetPassword(String newPass){
-        return true;
+    public boolean resetPassword(User u,String newPass){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_ID, u.getID());
+        cv.put(COLUMN_USER_FIRSTNAME, u.getFirstName());
+        cv.put(COLUMN_USER_LASTNAME, u.getLastName());
+        cv.put(COLUMN_USER_EMAIL, u.getEmail());
+        cv.put(COLUMN_USER_PASSWORD, newPass);
+        cv.put(COLUMN_CREDITCARD, u.getCreditCard());
+        cv.put(COLUMN_BALANCE, u.getBalance());
+
+        long insert = db.update(USER_TABLE,cv, COLUMN_USER_EMAIL+" = '"+ u.getEmail()+"' ;",null);
+
+        if (insert == -1){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+    public boolean updateCreditCard(User u,String creditCard){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_ID, u.getID());
+        cv.put(COLUMN_USER_FIRSTNAME, u.getFirstName());
+        cv.put(COLUMN_USER_LASTNAME, u.getLastName());
+        cv.put(COLUMN_USER_EMAIL, u.getEmail());
+        cv.put(COLUMN_USER_PASSWORD, u.getPassword());
+        cv.put(COLUMN_CREDITCARD, creditCard);
+        cv.put(COLUMN_BALANCE, u.getBalance());
+
+        long insert = db.update(USER_TABLE,cv, COLUMN_USER_EMAIL+" = '"+ u.getEmail()+"' ;",null);
+
+        if (insert == -1){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 
 }
