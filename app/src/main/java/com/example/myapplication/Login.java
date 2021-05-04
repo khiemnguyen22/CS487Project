@@ -126,7 +126,6 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(Login.this,e.getMessage(),Toast.LENGTH_SHORT).show();
-                        flag= false;
                     }
                 });
             }
@@ -150,21 +149,33 @@ public class Login extends AppCompatActivity {
                 Toast.makeText(Login.this, "Data is Valid", Toast.LENGTH_SHORT).show();
                 try {
                     u = databaseHelper.returnUser(email, password1);
-                    d = new Driver(u.getID(), u.getPassword(), u.getEmail(), u.getFirstName(), u.getLastName());
+                    if(u.getEmail().equals(email)){
+                        d = new Driver(u.getID(), u.getPassword(), u.getEmail(), u.getFirstName(), u.getLastName());
+                    }
+                    else{
+                        Toast.makeText(Login.this, "no user found", Toast.LENGTH_SHORT).show();
+                        flag = false;
+                    }
                 } catch (Exception e) {
                     Toast.makeText(Login.this, "Error", Toast.LENGTH_SHORT).show();
                 }
                 //update to current user
-                SharedDBProperties.sharedDriver.setEmail(u.getEmail());
-                SharedDBProperties.sharedDriver.setPassword(u.getPassword());
-                SharedDBProperties.sharedDriver.setFirstName(u.getFirstName());
-                SharedDBProperties.sharedDriver.setLastName(u.getLastName());
-                SharedDBProperties.sharedDriver.setPassword(u.getPassword());
 
-                boolean success = databaseHelper.addDriver(d);
-                    if (success) {
-                        Toast.makeText(Login.this, "Success", Toast.LENGTH_SHORT).show();
+                if(flag) {
+                    SharedDBProperties.sharedDriver.setEmail(u.getEmail());
+                    SharedDBProperties.sharedDriver.setPassword(u.getPassword());
+                    SharedDBProperties.sharedDriver.setFirstName(u.getFirstName());
+                    SharedDBProperties.sharedDriver.setLastName(u.getLastName());
+                    SharedDBProperties.sharedDriver.setPassword(u.getPassword());
+
+                    boolean newDriver = databaseHelper.addDriver(d);
+                    if (newDriver) {
+                        Toast.makeText(Login.this, "New Driver", Toast.LENGTH_SHORT).show();
                     }
+                }
+                else{
+                    Toast.makeText(Login.this, "sign in failed", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

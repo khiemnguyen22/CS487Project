@@ -128,6 +128,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return returnU;
     }
 
+    public User returnDriver(String email, String password){
+        Driver returnD = new Driver();
+
+        String queryString = "SELECT * FROM " + DRIVER_TABLE + " WHERE "+ COLUMN_USER_EMAIL+" = '"+email+"' AND "
+                + COLUMN_USER_PASSWORD + " = '"+ password +"';";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(queryString,null);
+
+        if(cursor.moveToFirst()) {
+            do {
+                returnD.setFirstName(cursor.getString(1));
+                returnD.setLastName(cursor.getString(2));
+                returnD.setEmail(email);
+                returnD.setPassword(password);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return returnD;
+    }
+
     public boolean resetPassword(User u,String newPass){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues cv = new ContentValues();
