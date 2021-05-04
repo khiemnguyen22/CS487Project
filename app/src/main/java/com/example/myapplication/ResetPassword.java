@@ -42,7 +42,7 @@ public class ResetPassword extends AppCompatActivity {
                     userconfirmpassword.setError("Password Does Not Match");
                 }
 
-                DatabaseHelper db = new DatabaseHelper(ResetPassword.this, 3);
+                DatabaseHelper db = new DatabaseHelper(ResetPassword.this, 4);
                 boolean success = db.resetPassword(SharedDBProperties.sharedUser,usernewPassword.getText().toString());
                 if(success) {
                     Toast.makeText(ResetPassword.this, "User password reset", Toast.LENGTH_SHORT).show();

@@ -157,23 +157,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues cvDriver = new ContentValues();
 
         //if user is a driver
-        Driver d = (Driver) returnDriver(u.getEmail(),u.getPassword());
-        if((d.getEmail()).equals(u.getEmail())){
-            cv.put(COLUMN_ID, d.getID());
-            cv.put(COLUMN_USER_FIRSTNAME, d.getFirstName());
-            cv.put(COLUMN_USER_LASTNAME, d.getLastName());
-            cv.put(COLUMN_USER_EMAIL, d.getEmail());
-            cv.put(COLUMN_USER_PASSWORD, newPass);
-            cv.put(COLUMN_CREDITCARD, d.getCreditCard());
-            cv.put(COLUMN_BALANCE, d.getBalance());
+        Driver d = (Driver) SharedDBProperties.sharedDriver;
+        if( (d.getEmail()).equals(u.getEmail()) ){
+            System.out.println("User is a driver");
+            cvDriver.put(COLUMN_ID, d.getID());
+            cvDriver.put(COLUMN_USER_FIRSTNAME, d.getFirstName());
+            cvDriver.put(COLUMN_USER_LASTNAME, d.getLastName());
+            cvDriver.put(COLUMN_USER_EMAIL, d.getEmail());
+            cvDriver.put(COLUMN_USER_PASSWORD, newPass);
+            cvDriver.put(COLUMN_CREDITCARD, d.getCreditCard());
+            cvDriver.put(COLUMN_BALANCE, d.getBalance());
 
-            cv.put(COLUMN_DRIVER_MAKE,d.getMake());
-            cv.put(COLUMN_DRIVER_MODEL, d.getYear());
-            cv.put(COLUMN_DRIVER_YEAR, d.getYear());
-            cv.put(COLUMN_DRIVER_LICENSEPLATE, d.getLiscensePlate());
-            cv.put(COLUMN_DRIVER_RIDES, d.getRides());
+            cvDriver.put(COLUMN_DRIVER_MAKE,d.getMake());
+            cvDriver.put(COLUMN_DRIVER_MODEL, d.getYear());
+            cvDriver.put(COLUMN_DRIVER_YEAR, d.getYear());
+            cvDriver.put(COLUMN_DRIVER_LICENSEPLATE, d.getLiscensePlate());
+            cvDriver.put(COLUMN_DRIVER_RIDES, d.getRides());
 
-            long insertDriver = db.update(DRIVER_TABLE,cvDriver,COLUMN_USER_PASSWORD+" = '"+ u.getEmail()+"' ;",null);
+            long insertDriver = db.update(DRIVER_TABLE,cvDriver,COLUMN_USER_EMAIL+" = '"+ u.getEmail()+"' ;",null);
         }
 
         cv.put(COLUMN_ID, u.getID());

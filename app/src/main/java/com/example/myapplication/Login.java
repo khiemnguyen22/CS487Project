@@ -158,7 +158,7 @@ public class Login extends AppCompatActivity {
                 } catch (Exception e) {
                     Toast.makeText(Login.this, "Error", Toast.LENGTH_SHORT).show();
                 }
-                //update to current user
+
 
                 fireAuth = FirebaseAuth.getInstance();
                 //login user
@@ -180,6 +180,13 @@ public class Login extends AppCompatActivity {
                     SharedDBProperties.sharedDriver.setFirstName(u.getFirstName());
                     SharedDBProperties.sharedDriver.setLastName(u.getLastName());
                     SharedDBProperties.sharedDriver.setPassword(u.getPassword());
+
+                    //update current user
+                    SharedDBProperties.sharedUser.setEmail(u.getEmail());
+                    SharedDBProperties.sharedUser.setPassword(u.getPassword());
+                    SharedDBProperties.sharedUser.setFirstName(u.getFirstName());
+                    SharedDBProperties.sharedUser.setLastName(u.getLastName());
+                    SharedDBProperties.sharedUser.setPassword(u.getPassword());
 
                     boolean newDriver = databaseHelper.addDriver(d);
                     if (newDriver) {

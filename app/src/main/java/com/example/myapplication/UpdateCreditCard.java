@@ -41,7 +41,7 @@ public class UpdateCreditCard extends AppCompatActivity {
                     userconfirmCC.setError("Credit Card Number Does Not Match");
                 }
 
-                DatabaseHelper db = new DatabaseHelper(UpdateCreditCard.this, 3);
+                DatabaseHelper db = new DatabaseHelper(UpdateCreditCard.this, 4);
                 boolean success = db.updateCreditCard(SharedDBProperties.sharedUser,usernewCC.getText().toString());
                 if(success) {
                     Toast.makeText(UpdateCreditCard.this, "User Credit Card Updated", Toast.LENGTH_SHORT).show();

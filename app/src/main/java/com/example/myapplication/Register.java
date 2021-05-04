@@ -107,7 +107,7 @@ public class Register extends AppCompatActivity {
                 SharedDBProperties.sharedUser.setLastName(lastName);
                 SharedDBProperties.sharedUser.setPassword(u.getPassword());
 
-                DatabaseHelper databaseHelper= new DatabaseHelper(Register.this, 3);
+                DatabaseHelper databaseHelper= new DatabaseHelper(Register.this, 4);
 
                 boolean success = databaseHelper.addUser(u);
                 Toast.makeText(Register.this, "User added to database", Toast.LENGTH_SHORT).show();
@@ -120,7 +120,6 @@ public class Register extends AppCompatActivity {
                     public void onSuccess(AuthResult authResult) {
                         startActivity(new Intent(getApplicationContext(),MainActivity.class));
                         finish();
-
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override

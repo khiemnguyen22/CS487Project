@@ -45,7 +45,7 @@ public class UpdateEmail extends AppCompatActivity {
                     userconfirmEmail.setError("Email Does Not Match");
                 }
 
-                DatabaseHelper db = new DatabaseHelper(UpdateEmail.this, 3);
+                DatabaseHelper db = new DatabaseHelper(UpdateEmail.this, 4);
                 boolean success = db.updateEmail(SharedDBProperties.sharedUser,usernewEmail.getText().toString());
                 if(success) {
                     Toast.makeText(UpdateEmail.this, "User Email Updated", Toast.LENGTH_SHORT).show();
