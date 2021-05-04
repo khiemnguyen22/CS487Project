@@ -13,18 +13,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+
 public class Login extends AppCompatActivity {
-    Button createAccountBtn, loginBtn, forgetpasswordbtn;
+    Button createAccountBtn, loginBtn, forgetpasswordbtn, driverLoginBtn;
     EditText username, password;
     FirebaseAuth fireAuth;
     AlertDialog.Builder reset;
     LayoutInflater inflater;
+    Driver d;
+    User u;
+    boolean flag = true;
 
 
     @Override
@@ -45,7 +51,8 @@ public class Login extends AppCompatActivity {
         password = (EditText) findViewById(R.id.loginpassword);
 
         //buttons
-        loginBtn = findViewById(R.id.signinbtn);
+        loginBtn = (Button) findViewById(R.id.signinbtn);
+        driverLoginBtn = (Button) findViewById(R.id.driverSigninbtn);
         forgetpasswordbtn = findViewById(R.id.forgetPassword);
         //reset forgotten password
         reset = new AlertDialog.Builder(this);
@@ -62,7 +69,7 @@ public class Login extends AppCompatActivity {
                         .setPositiveButton("Reset", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                 EditText email = view.findViewById(R.id.reset_email);
+                                EditText email = view.findViewById(R.id.reset_email);
                                 if(email.getText().toString().isEmpty()){
                                     email.setError("Email is Required");
                                 }
@@ -86,7 +93,6 @@ public class Login extends AppCompatActivity {
         });
 
 
-
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,7 +103,7 @@ public class Login extends AppCompatActivity {
                     password.setError("Password Field is empty");
                 }
 
-                DatabaseHelper db = new DatabaseHelper(Login.this, 3);
+                DatabaseHelper db = new DatabaseHelper(Login.this, 4);
                 User loginUser = db.returnUser(username.getText().toString(), password.getText().toString());
                 SharedDBProperties.sharedUser.setEmail(loginUser.getEmail());
                 SharedDBProperties.sharedUser.setPassword(loginUser.getPassword());
@@ -121,6 +127,73 @@ public class Login extends AppCompatActivity {
                         Toast.makeText(Login.this,e.getMessage(),Toast.LENGTH_SHORT).show();
                     }
                 });
+            }
+        });
+
+        driverLoginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (username.getText().toString().isEmpty()) {
+                    username.setError("Email Field is empty");
+                }
+                if (password.getText().toString().isEmpty()) {
+                    password.setError("Password Field is empty");
+                }
+                final String email = username.getText().toString();
+                final String password1 = password.getText().toString();
+
+
+                DatabaseHelper databaseHelper = new DatabaseHelper(Login.this, 4);
+
+                Toast.makeText(Login.this, "Data is Valid", Toast.LENGTH_SHORT).show();
+                try {
+                    u = databaseHelper.returnUser(email, password1);
+                    if(u.getEmail().equals(email)){
+                        d = new Driver(u.getID(), u.getPassword(), u.getEmail(), u.getFirstName(), u.getLastName());
+                    }
+                    else{
+                        Toast.makeText(Login.this, "no user found", Toast.LENGTH_SHORT).show();
+                        flag = false;
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(Login.this, "Error", Toast.LENGTH_SHORT).show();
+                }
+                //update to current user
+
+                fireAuth = FirebaseAuth.getInstance();
+                //login user
+                fireAuth.signInWithEmailAndPassword(username.getText().toString(), password.getText().toString())
+                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                            @Override
+                            public void onSuccess(AuthResult authResult) {
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(Login.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                if(flag) {
+                    SharedDBProperties.sharedDriver.setEmail(u.getEmail());
+                    SharedDBProperties.sharedDriver.setPassword(u.getPassword());
+                    SharedDBProperties.sharedDriver.setFirstName(u.getFirstName());
+                    SharedDBProperties.sharedDriver.setLastName(u.getLastName());
+                    SharedDBProperties.sharedDriver.setPassword(u.getPassword());
+
+                    boolean newDriver = databaseHelper.addDriver(d);
+                    if (newDriver) {
+                        Toast.makeText(Login.this, "New Driver", Toast.LENGTH_SHORT).show();
+                    }
+
+                    startActivity(new Intent(getApplicationContext(),DriverMainActivity.class));
+                    finish();
+
+                }
+                else{
+                    Toast.makeText(Login.this, "sign in failed", Toast.LENGTH_SHORT).show();
+                    flag = true;
+                }
             }
         });
 

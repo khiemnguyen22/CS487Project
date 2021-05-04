@@ -26,6 +26,16 @@ public class Driver extends User {
         this.rides = rides;
     }
 
+    public Driver(int id, String password,String email,String firstName,String lastName){
+        super(id, password, email, firstName, lastName);
+        make = "";
+        model = "";
+        year = "";
+        liscensePlate = "";
+        rides = 0;
+
+    }
+
     public String getMake(){ return this.make;}
 
     public void setMake(String make) {this.make= make;}

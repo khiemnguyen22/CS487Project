@@ -17,10 +17,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_CREDITCARD = "USER_CREDITCARD";
     private static final String COLUMN_BALANCE = "USER_BALANCE";
 
+    private static final String DRIVER_TABLE = "DRIVER_TABLE";
+    private static final String COLUMN_DRIVER_MAKE = "DRIVER_MAKE";
+    private static final String COLUMN_DRIVER_MODEL = "DRIVER_MODEL";
+    private static final String COLUMN_DRIVER_YEAR = "DRIVER_YEAR";
+    private static final String COLUMN_DRIVER_LICENSEPLATE = "DRIVER_LICENSEPLATE";
+    private static final String COLUMN_DRIVER_RIDES = "DRIVER_RIDES";
+
+
+
 
     private String createTable= "CREATE TABLE " + USER_TABLE + "( " + COLUMN_ID + " INTEGER, "
             + COLUMN_USER_FIRSTNAME +" TEXT, "+ COLUMN_USER_LASTNAME+" TEXT, "+COLUMN_USER_EMAIL+ " TEXT PRIMARY KEY, "
             + COLUMN_USER_PASSWORD +" TEXT, "+ COLUMN_CREDITCARD+" TEXT, "+ COLUMN_BALANCE+" NUMERIC)";
+
+    private String createDriverTable = "CREATE TABLE " + DRIVER_TABLE + "( " + COLUMN_ID + " INTEGER, "
+            + COLUMN_USER_FIRSTNAME +" TEXT, "+ COLUMN_USER_LASTNAME+" TEXT, "+COLUMN_USER_EMAIL+ " TEXT PRIMARY KEY, "
+            + COLUMN_USER_PASSWORD +" TEXT, "+ COLUMN_CREDITCARD+" TEXT, "+ COLUMN_BALANCE +" NUMERIC, "
+            + COLUMN_DRIVER_MAKE+" TEXT, "+ COLUMN_DRIVER_MODEL+" TEXT, "+ COLUMN_DRIVER_YEAR+" TEXT, "
+            + COLUMN_DRIVER_LICENSEPLATE+" TEXT, "+  COLUMN_DRIVER_RIDES+" INTEGER )";
+
 
     public DatabaseHelper(Context context){
         super(context, "User.db",null, 1);
@@ -31,14 +47,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(createTable);
+        db.execSQL(createDriverTable);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE);
         onCreate(db);
-
     }
 
     public boolean addUser(User u){
@@ -54,6 +68,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_BALANCE, u.getBalance());
 
         long insert = db.insert(USER_TABLE, null, cv);
+
+        if (insert == -1){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+    public boolean addDriver(Driver d){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_ID, d.getID());
+        cv.put(COLUMN_USER_FIRSTNAME, d.getFirstName());
+        cv.put(COLUMN_USER_LASTNAME, d.getLastName());
+        cv.put(COLUMN_USER_EMAIL, d.getEmail());
+        cv.put(COLUMN_USER_PASSWORD, d.getPassword());
+        cv.put(COLUMN_CREDITCARD, d.getCreditCard());
+        cv.put(COLUMN_BALANCE, d.getBalance());
+
+        cv.put(COLUMN_DRIVER_MAKE,d.getMake());
+        cv.put(COLUMN_DRIVER_MODEL, d.getYear());
+        cv.put(COLUMN_DRIVER_YEAR, d.getYear());
+        cv.put(COLUMN_DRIVER_LICENSEPLATE, d.getLiscensePlate());
+        cv.put(COLUMN_DRIVER_RIDES, d.getRides());
+
+        long insert = db.insert(DRIVER_TABLE, null, cv);
 
         if (insert == -1){
             return false;
@@ -86,9 +128,53 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return returnU;
     }
 
+    public User returnDriver(String email, String password){
+        Driver returnD = new Driver();
+
+        String queryString = "SELECT * FROM " + DRIVER_TABLE + " WHERE "+ COLUMN_USER_EMAIL+" = '"+email+"' AND "
+                + COLUMN_USER_PASSWORD + " = '"+ password +"';";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(queryString,null);
+
+        if(cursor.moveToFirst()) {
+            do {
+                returnD.setFirstName(cursor.getString(1));
+                returnD.setLastName(cursor.getString(2));
+                returnD.setEmail(email);
+                returnD.setPassword(password);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return returnD;
+    }
+
     public boolean resetPassword(User u,String newPass){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues cv = new ContentValues();
+        ContentValues cvDriver = new ContentValues();
+
+        //if user is a driver
+        Driver d = (Driver) returnDriver(u.getEmail(),u.getPassword());
+        if((d.getEmail()).equals(u.getEmail())){
+            cv.put(COLUMN_ID, d.getID());
+            cv.put(COLUMN_USER_FIRSTNAME, d.getFirstName());
+            cv.put(COLUMN_USER_LASTNAME, d.getLastName());
+            cv.put(COLUMN_USER_EMAIL, d.getEmail());
+            cv.put(COLUMN_USER_PASSWORD, newPass);
+            cv.put(COLUMN_CREDITCARD, d.getCreditCard());
+            cv.put(COLUMN_BALANCE, d.getBalance());
+
+            cv.put(COLUMN_DRIVER_MAKE,d.getMake());
+            cv.put(COLUMN_DRIVER_MODEL, d.getYear());
+            cv.put(COLUMN_DRIVER_YEAR, d.getYear());
+            cv.put(COLUMN_DRIVER_LICENSEPLATE, d.getLiscensePlate());
+            cv.put(COLUMN_DRIVER_RIDES, d.getRides());
+
+            long insertDriver = db.update(DRIVER_TABLE,cvDriver,COLUMN_USER_PASSWORD+" = '"+ u.getEmail()+"' ;",null);
+        }
 
         cv.put(COLUMN_ID, u.getID());
         cv.put(COLUMN_USER_FIRSTNAME, u.getFirstName());
