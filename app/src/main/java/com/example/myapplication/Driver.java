@@ -5,6 +5,7 @@ public class Driver extends User {
     private String model;
     private String year;
     private String liscensePlate;
+    private int rides;
 
     public Driver(){
         super();
@@ -12,14 +13,17 @@ public class Driver extends User {
         model = "";
         year = "";
         liscensePlate = "";
+        rides = 0;
+
     }
 
-    public Driver(int id, String password,String email,String firstName,String lastName,String make,String model,String year,String liscensePlate){
+    public Driver(int id, String password,String email,String firstName,String lastName,String make,String model,String year,String liscensePlate,int rides){
         super(id, password, email, firstName, lastName);
         this.make = make;
         this.model = model;
         this.year = year;
         this.liscensePlate = liscensePlate;
+        this.rides = rides;
     }
 
     public String getMake(){ return this.make;}
@@ -43,4 +47,8 @@ public class Driver extends User {
     }
 
     public void setLiscensePlate(String liscensePlate){ this.liscensePlate = liscensePlate; }
+
+    public int getRides(){ return this.rides;}
+
+    public void setRides(int rides) {this.rides = rides;}
 }

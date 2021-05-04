@@ -130,4 +130,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean updateEmail(User u,String email){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_ID, u.getID());
+        cv.put(COLUMN_USER_FIRSTNAME, u.getFirstName());
+        cv.put(COLUMN_USER_LASTNAME, u.getLastName());
+        cv.put(COLUMN_USER_EMAIL, email);
+        cv.put(COLUMN_USER_PASSWORD, u.getPassword());
+        cv.put(COLUMN_CREDITCARD, u.getCreditCard());
+        cv.put(COLUMN_BALANCE, u.getBalance());
+
+        long insert = db.update(USER_TABLE,cv, COLUMN_USER_EMAIL+" = '"+ u.getEmail()+"' ;",null);
+
+        if (insert == -1){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
 }
