@@ -198,6 +198,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean updateCreditCard(User u,String creditCard){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues cv = new ContentValues();
+        ContentValues cvDriver = new ContentValues();
+
+        Driver d = (Driver) SharedDBProperties.sharedDriver;
+        if( (d.getEmail()).equals(u.getEmail()) ){
+            System.out.println("User is a driver");
+            cvDriver.put(COLUMN_ID, d.getID());
+            cvDriver.put(COLUMN_USER_FIRSTNAME, d.getFirstName());
+            cvDriver.put(COLUMN_USER_LASTNAME, d.getLastName());
+            cvDriver.put(COLUMN_USER_EMAIL, d.getEmail());
+            cvDriver.put(COLUMN_USER_PASSWORD, d.getPassword());
+            cvDriver.put(COLUMN_CREDITCARD, creditCard);
+            cvDriver.put(COLUMN_BALANCE, d.getBalance());
+
+            cvDriver.put(COLUMN_DRIVER_MAKE,d.getMake());
+            cvDriver.put(COLUMN_DRIVER_MODEL, d.getYear());
+            cvDriver.put(COLUMN_DRIVER_YEAR, d.getYear());
+            cvDriver.put(COLUMN_DRIVER_LICENSEPLATE, d.getLiscensePlate());
+            cvDriver.put(COLUMN_DRIVER_RIDES, d.getRides());
+
+            long insertDriver = db.update(DRIVER_TABLE,cvDriver,COLUMN_USER_EMAIL+" = '"+ u.getEmail()+"' ;",null);
+        }
 
         cv.put(COLUMN_ID, u.getID());
         cv.put(COLUMN_USER_FIRSTNAME, u.getFirstName());
@@ -220,6 +241,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean updateEmail(User u,String email){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues cv = new ContentValues();
+        ContentValues cvDriver = new ContentValues();
+
+        Driver d = (Driver) SharedDBProperties.sharedDriver;
+        if( (d.getEmail()).equals(u.getEmail()) ){
+            System.out.println("User is a driver");
+            cvDriver.put(COLUMN_ID, d.getID());
+            cvDriver.put(COLUMN_USER_FIRSTNAME, d.getFirstName());
+            cvDriver.put(COLUMN_USER_LASTNAME, d.getLastName());
+            cvDriver.put(COLUMN_USER_EMAIL, email);
+            cvDriver.put(COLUMN_USER_PASSWORD, d.getPassword());
+            cvDriver.put(COLUMN_CREDITCARD, d.getCreditCard());
+            cvDriver.put(COLUMN_BALANCE, d.getBalance());
+
+            cvDriver.put(COLUMN_DRIVER_MAKE,d.getMake());
+            cvDriver.put(COLUMN_DRIVER_MODEL, d.getYear());
+            cvDriver.put(COLUMN_DRIVER_YEAR, d.getYear());
+            cvDriver.put(COLUMN_DRIVER_LICENSEPLATE, d.getLiscensePlate());
+            cvDriver.put(COLUMN_DRIVER_RIDES, d.getRides());
+
+            long insertDriver = db.update(DRIVER_TABLE,cvDriver,COLUMN_USER_EMAIL+" = '"+ u.getEmail()+"' ;",null);
+        }
+
+
 
         cv.put(COLUMN_ID, u.getID());
         cv.put(COLUMN_USER_FIRSTNAME, u.getFirstName());
