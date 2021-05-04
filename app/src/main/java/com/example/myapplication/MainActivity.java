@@ -81,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.updateCreditCard){
             startActivity(new Intent(getApplicationContext(),UpdateCreditCard.class));
         }
+        if(item.getItemId() == R.id.updateEmailmenu){
+            startActivity(new Intent(getApplicationContext(),UpdateEmail.class));
+        }
         return super.onOptionsItemSelected(item);
     }
 
