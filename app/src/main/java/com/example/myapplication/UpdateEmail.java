@@ -1,13 +1,13 @@
 package com.example.myapplication;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 public class UpdateEmail extends AppCompatActivity {
 
@@ -28,13 +28,13 @@ public class UpdateEmail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(usernewEmail.getText().toString().isEmpty()){
-                    usernewEmail.setError("Required to update Credit Card");
+                    usernewEmail.setError("Required to update Email");
                 }
                 if(userconfirmEmail.getText().toString().isEmpty()){
-                    userconfirmEmail.setError("Required to update Credit Card");
+                    userconfirmEmail.setError("Required to update Email");
                 }
                 if(!usernewEmail.getText().toString().equals(userconfirmEmail.getText().toString())){
-                    userconfirmEmail.setError("Credit Card Number Does Not Match");
+                    userconfirmEmail.setError("Email Does Not Match");
                 }
 
                 DatabaseHelper db = new DatabaseHelper(UpdateEmail.this, 3);
