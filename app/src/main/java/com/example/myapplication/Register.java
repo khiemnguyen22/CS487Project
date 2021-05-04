@@ -67,26 +67,38 @@ public class Register extends AppCompatActivity {
 
                 if (firstName.isEmpty()) {
                     registerfirstname.setError("First Name is required");
+                    registerfirstname.requestFocus();
+                    return;
                 }
 
                 if (lastName.isEmpty()) {
                     registerlastname.setError("Last Name is required");
+                    registerlastname.requestFocus();
+                    return;
                 }
 
                 if (email.isEmpty()) {
                     registeremail.setError("Email is required");
+                    registeremail.requestFocus();
+                    return;
                 }
 
                 if (password.isEmpty()) {
                     registerpassword.setError("Password is required");
+                    registerpassword.requestFocus();
+                    return;
                 }
 
                 if (confpassword.isEmpty()) {
                     registerconfirmpass.setError("Please confirm password");
+                    registerconfirmpass.requestFocus();
+                    return;
                 }
 
                 if (!password.equals(confpassword)) {
                     registerconfirmpass.setError("Passwords Do Not Match");
+                    registerconfirmpass.requestFocus();
+                    return;
                 }
 
                 //if data is valid
