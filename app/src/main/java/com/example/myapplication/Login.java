@@ -13,18 +13,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Login extends AppCompatActivity {
-    Button createAccountBtn, loginBtn, forgetpasswordbtn;
+    Button createAccountBtn, loginBtn, forgetpasswordbtn, driverLoginBtn;
     EditText username, password;
     FirebaseAuth fireAuth;
     AlertDialog.Builder reset;
     LayoutInflater inflater;
+    Driver d;
+    User u;
+    boolean flag = true;
 
 
     @Override
@@ -45,7 +52,8 @@ public class Login extends AppCompatActivity {
         password = (EditText) findViewById(R.id.loginpassword);
 
         //buttons
-        loginBtn = findViewById(R.id.signinbtn);
+        loginBtn = (Button) findViewById(R.id.signinbtn);
+        driverLoginBtn = (Button) findViewById(R.id.driverSigninbtn);
         forgetpasswordbtn = findViewById(R.id.forgetPassword);
         //reset forgotten password
         reset = new AlertDialog.Builder(this);
@@ -86,7 +94,6 @@ public class Login extends AppCompatActivity {
         });
 
 
-
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,7 +104,7 @@ public class Login extends AppCompatActivity {
                     password.setError("Password Field is empty");
                 }
 
-                DatabaseHelper db = new DatabaseHelper(Login.this, 3);
+                DatabaseHelper db = new DatabaseHelper(Login.this, 4);
                 User loginUser = db.returnUser(username.getText().toString(), password.getText().toString());
                 SharedDBProperties.sharedUser.setEmail(loginUser.getEmail());
                 SharedDBProperties.sharedUser.setPassword(loginUser.getPassword());
@@ -119,8 +126,45 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(Login.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                        flag= false;
                     }
                 });
+            }
+        });
+
+        driverLoginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (username.getText().toString().isEmpty()) {
+                    username.setError("Email Field is empty");
+                }
+                if (password.getText().toString().isEmpty()) {
+                    password.setError("Password Field is empty");
+                }
+                final String email = username.getText().toString();
+                final String password1 = password.getText().toString();
+
+
+                DatabaseHelper databaseHelper = new DatabaseHelper(Login.this, 4);
+
+                Toast.makeText(Login.this, "Data is Valid", Toast.LENGTH_SHORT).show();
+                try {
+                    u = databaseHelper.returnUser(email, password1);
+                    d = new Driver(u.getID(), u.getPassword(), u.getEmail(), u.getFirstName(), u.getLastName());
+                } catch (Exception e) {
+                    Toast.makeText(Login.this, "Error", Toast.LENGTH_SHORT).show();
+                }
+                //update to current user
+                SharedDBProperties.sharedDriver.setEmail(u.getEmail());
+                SharedDBProperties.sharedDriver.setPassword(u.getPassword());
+                SharedDBProperties.sharedDriver.setFirstName(u.getFirstName());
+                SharedDBProperties.sharedDriver.setLastName(u.getLastName());
+                SharedDBProperties.sharedDriver.setPassword(u.getPassword());
+
+                boolean success = databaseHelper.addDriver(d);
+                    if (success) {
+                        Toast.makeText(Login.this, "Success", Toast.LENGTH_SHORT).show();
+                    }
             }
         });
 

@@ -54,11 +54,23 @@
         android:layout_width="0dp"
         android:layout_height="57dp"
         android:layout_marginTop="16dp"
-        android:text="LOGIN"
+        android:text="USER LOGIN"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/loginpassword"
         app:layout_constraintStart_toStartOf="@+id/loginpassword"
+        app:layout_constraintTop_toBottomOf="@+id/loginpassword"  />
+
+    <Button
+        android:id="@+id/driverSigninbtn"
+        android:layout_width="0dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="30dp"
+        android:text="DRIVERLOGIN"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/signinbtn"
         app:layout_constraintTop_toBottomOf="@+id/loginpassword"  />
 
     <Button
@@ -86,7 +98,8 @@
 
         app:layout_constraintTop_toTopOf="@+id/createbtn"
         app:layout_constraintTop_toBottomOf="@+id/createbtn"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginLeft="48dp" />
 
     <Button
         android:id="@+id/createbtn"
