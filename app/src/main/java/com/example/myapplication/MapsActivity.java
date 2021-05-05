@@ -3,16 +3,9 @@ package com.example.myapplication;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
-
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,18 +20,26 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-import java.io.IOException;
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener{
+
+    FirebaseDatabase mDatabase;
+    DatabaseReference mDatabaseReference;
+    String name;
+    private GoogleMap mMap;
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -58,9 +59,40 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             mMap.setOnMyLocationButtonClickListener(this);
             mMap.setOnMyLocationClickListener(this);
+            mDatabaseReference.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    LatLng newLocation = new LatLng(dataSnapshot.child("Latitude").getValue(Double.class),dataSnapshot.child("Longitude").getValue(Double.class));
+                    mMap.addMarker(new MarkerOptions().position(newLocation).title(name)
+                    );
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
 
         }
-    }
+
 
     private static final String TAG = "MapActivity";
 
@@ -71,16 +103,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     //vars
     private Boolean mLocationPermissionsGranted = false;
-    private GoogleMap mMap;
+
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
-
         getLocationPermission();
+
+        name = FirebaseDatabase.getInstance().getReference("User").child("Name").toString();
+        mDatabase = FirebaseDatabase.getInstance();
+        mDatabaseReference = mDatabase.getReference("Location");
+
     }
 
     private void getDeviceLocation(){
@@ -98,6 +133,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         if(task.isSuccessful()){
                             Log.d(TAG, "onComplete: found location!");
                             Location currentLocation = (Location) task.getResult();
+
 
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
                                     DEFAULT_ZOOM);
@@ -189,57 +225,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    public void onRadioButtonClicked(View view) {
-        // Is the button now checked?
-        boolean checked = ((RadioButton) view).isChecked();
 
-        // Check which radio button was clicked
-        switch(view.getId()) {
-            case R.id.radio_normal:
-                if (checked)
-                    break;
-            case R.id.radio_split:
-                if (checked)
-                    break;
-        }
-    }
 
-    public void onSearchClick(View v){
-        switch (v.getId()){
-            case R.id.searchbtn:
-                EditText addressField = (EditText) findViewById(R.id.editText);
-                String address = addressField.getText().toString();
 
-                List<Address> addressList = null;
-                MarkerOptions userMarkerOptions = new MarkerOptions();
-
-                if(!TextUtils.isEmpty(address)){
-                    Geocoder geocoder = new Geocoder(this);
-                    try{
-                        addressList = geocoder.getFromLocationName(address, 6);
-
-                        if(addressList != null){
-                            for (int i = 0; i < addressList.size(); i++) {
-                                Address userAddress = addressList.get(i);
-                                LatLng latLng = new LatLng(userAddress.getLatitude(), userAddress.getLongitude());
-                                userMarkerOptions.position(latLng);
-                                userMarkerOptions.title("user Current Location");
-                                userMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-
-                                mMap.addMarker(userMarkerOptions);
-                                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                                mMap.animateCamera(CameraUpdateFactory.zoomBy(10));
-                            }
-                        }else{
-                            Toast.makeText(this, "Destination not found",Toast.LENGTH_SHORT).show();
-                        }
-                    }catch (IOException e){
-                        e.printStackTrace();
-                    }
-                } else{
-                    Toast.makeText(this, "Please enter a destination",Toast.LENGTH_SHORT).show();
-                }
-                break;
-        }
-    }
 }
