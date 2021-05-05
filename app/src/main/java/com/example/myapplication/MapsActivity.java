@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -186,6 +187,21 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG)
                 .show();
 
+    }
+
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.radio_normal:
+                if (checked)
+                    break;
+            case R.id.radio_split:
+                if (checked)
+                    break;
+        }
     }
 
     public void onSearchClick(View v){
