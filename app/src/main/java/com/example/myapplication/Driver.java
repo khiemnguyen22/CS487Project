@@ -6,6 +6,7 @@ public class Driver extends User {
     private String year;
     private String liscensePlate;
     private int rides;
+    private double balance;
 
     public Driver(){
         super();
@@ -14,6 +15,7 @@ public class Driver extends User {
         year = "";
         liscensePlate = "";
         rides = 0;
+        balance = 100;
 
     }
 
@@ -24,6 +26,7 @@ public class Driver extends User {
         this.year = year;
         this.liscensePlate = liscensePlate;
         this.rides = rides;
+
     }
 
     public Driver(int id, String password,String email,String firstName,String lastName){

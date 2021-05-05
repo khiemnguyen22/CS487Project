@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+
 public class User {
     // (String username, String password, String email, Payment p, GeoLocation location)
     // TODO: Complete this
@@ -10,6 +11,7 @@ public class User {
     private int id;
     private String creditCardNumber;
     private double balance;
+
 
     public User(){
         this.password="";
