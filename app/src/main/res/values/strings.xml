@@ -12,4 +12,6 @@
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_regisiter">MainActivity</string>
     <string name="title_activity_maps">MapActivity</string>
+    <string name="maps_api_key">AIzaSyBTgtoslGmcpiyYZmgd5Kl_u3GV0lUmf_c</string>
+
 </resources>

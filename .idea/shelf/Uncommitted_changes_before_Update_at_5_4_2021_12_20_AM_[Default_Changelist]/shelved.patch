@@ -1,0 +1,254 @@
+Index: app/src/main/java/com/example/myapplication/MapsActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.myapplication;\r\n\r\nimport androidx.fragment.app.FragmentActivity;\r\n\r\nimport android.os.Bundle;\r\n\r\nimport com.google.android.gms.maps.CameraUpdateFactory;\r\nimport com.google.android.gms.maps.GoogleMap;\r\nimport com.google.android.gms.maps.OnMapReadyCallback;\r\nimport com.google.android.gms.maps.SupportMapFragment;\r\nimport com.google.android.gms.maps.model.LatLng;\r\nimport com.google.android.gms.maps.model.MarkerOptions;\r\n\r\npublic class MapsActivity extends FragmentActivity implements OnMapReadyCallback {\r\n\r\n    private GoogleMap mMap;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_maps);\r\n        // Obtain the SupportMapFragment and get notified when the map is ready to be used.\r\n        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()\r\n                .findFragmentById(R.id.map);\r\n        mapFragment.getMapAsync(this);\r\n    }\r\n\r\n    /**\r\n     * Manipulates the map once available.\r\n     * This callback is triggered when the map is ready to be used.\r\n     * This is where we can add markers or lines, add listeners or move the camera. In this case,\r\n     * we just add a marker near Sydney, Australia.\r\n     * If Google Play services is not installed on the device, the user will be prompted to install\r\n     * it inside the SupportMapFragment. This method will only be triggered once the user has\r\n     * installed Google Play services and returned to the app.\r\n     */\r\n    @Override\r\n    public void onMapReady(GoogleMap googleMap) {\r\n        mMap = googleMap;\r\n\r\n        // Add a marker in Sydney and move the camera\r\n        LatLng sydney = new LatLng(-34, 151);\r\n        mMap.addMarker(new MarkerOptions().position(sydney).title(\"Marker in Sydney\"));\r\n        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/myapplication/MapsActivity.java	(revision 2ed2132c0dc3a5f4a722e9d3c32605d0a239b7cd)
++++ app/src/main/java/com/example/myapplication/MapsActivity.java	(date 1620101900715)
+@@ -1,46 +1,39 @@
+ package com.example.myapplication;
+ 
+-import androidx.fragment.app.FragmentActivity;
+-
++import android.annotation.SuppressLint;
+ import android.os.Bundle;
+ 
+-import com.google.android.gms.maps.CameraUpdateFactory;
++import androidx.annotation.NonNull;
++import androidx.annotation.Nullable;
++import androidx.fragment.app.FragmentActivity;
++
+ import com.google.android.gms.maps.GoogleMap;
+ import com.google.android.gms.maps.OnMapReadyCallback;
+ import com.google.android.gms.maps.SupportMapFragment;
+-import com.google.android.gms.maps.model.LatLng;
+-import com.google.android.gms.maps.model.MarkerOptions;
++
+ 
+ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+-
+-    private GoogleMap mMap;
++    boolean isPermissionGranted;
++    GoogleMap mGoogleMap;
+ 
+     @Override
+-    protected void onCreate(Bundle savedInstanceState) {
++    protected void onCreate(@Nullable Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_maps);
+-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+-                .findFragmentById(R.id.map);
+-        mapFragment.getMapAsync(this);
++        checkMyPermissions();
++        if(isPermissionGranted){
++            SupportMapFragment supportMapFragment =(SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
++            supportMapFragment.getMapAsync(this);
++        }
+     }
+ 
+-    /**
+-     * Manipulates the map once available.
+-     * This callback is triggered when the map is ready to be used.
+-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
+-     * we just add a marker near Sydney, Australia.
+-     * If Google Play services is not installed on the device, the user will be prompted to install
+-     * it inside the SupportMapFragment. This method will only be triggered once the user has
+-     * installed Google Play services and returned to the app.
+-     */
++    private void checkMyPermissions() {
++    }
++
++    @SuppressLint({"MissingPermissions", "MissingPermission"})
+     @Override
+-    public void onMapReady(GoogleMap googleMap) {
+-        mMap = googleMap;
+-
+-        // Add a marker in Sydney and move the camera
+-        LatLng sydney = new LatLng(-34, 151);
+-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
++    public void onMapReady(@NonNull GoogleMap googleMap) {
++    mGoogleMap = googleMap;
++    mGoogleMap.setMyLocationEnabled(true);
+     }
+ }
+\ No newline at end of file
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    package=\"com.example.myapplication\">\r\n    <!--\r\n         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use\r\n         Google Maps Android API v2, but you must specify either coarse or fine\r\n         location permissions for the \"MyLocation\" functionality.\r\n    -->\r\n    <uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />\r\n\r\n    <application\r\n        android:icon=\"@mipmap/ic_launcher\"\r\n        android:label=\"@string/app_name\"\r\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/AppTheme\">\r\n        <activity android:name=\".UpdateCreditCard\"></activity>\r\n        <activity android:name=\".UpdateEmail\"></activity>\r\n        <!--\r\n             The API key for Google Maps-based APIs is defined as a string resource.\r\n             (See the file \"res/values/google_maps_api.xml\").\r\n             Note that the API key is linked to the encryption key used to sign the APK.\r\n             You need a different API key for each encryption key, including the release key that is used to\r\n             sign the APK for publishing.\r\n             You can define the keys for the debug and release targets in src/debug/ and src/release/.\r\n        -->\r\n        <meta-data\r\n            android:name=\"com.google.android.geo.API_KEY\"\r\n            android:value=\"@string/google_maps_key\" />\r\n\r\n        <activity\r\n            android:name=\".MapsActivity\"\r\n            android:label=\"@string/title_activity_maps\" />\r\n        <activity android:name=\".ResetPassword\" />\r\n        <activity android:name=\".Register\" />\r\n        <activity android:name=\".Login\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n        <activity android:name=\".MainActivity\" />\r\n    </application>\r\n\r\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision 2ed2132c0dc3a5f4a722e9d3c32605d0a239b7cd)
++++ app/src/main/AndroidManifest.xml	(date 1620099677281)
+@@ -7,6 +7,9 @@
+          location permissions for the "MyLocation" functionality.
+     -->
+     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
++    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
++    <uses-permission android:name="android.permission.INTERNET"/>
++    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+ 
+     <application
+         android:icon="@mipmap/ic_launcher"
+Index: app/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:id=\"@+id/activity_main_inference\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\">\r\n\r\n    <TextView\r\n        android:id=\"@+id/Name\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginTop=\"16dp\"\r\n        android:text=\"FullName\"\r\n        android:textAppearance=\"@style/TextAppearance.AppCompat.Large\"\r\n        android:textSize=\"24sp\"\r\n        android:textStyle=\"bold\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        android:layout_marginLeft=\"16dp\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/Email\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginLeft=\"8dp\"\r\n        android:text=\"(Email)\"\r\n        android:textAppearance=\"@style/TextAppearance.AppCompat.Medium\"\r\n        app:layout_constraintBottom_toBottomOf=\"@+id/Name\"\r\n        app:layout_constraintStart_toEndOf=\"@+id/Name\" />\r\n\r\n    <ImageView\r\n        android:id=\"@+id/imageView3\"\r\n        android:layout_width=\"170dp\"\r\n        android:layout_height=\"243dp\"\r\n        app:layout_constraintStart_toStartOf=\"@+id/Name\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/Name\"\r\n        app:srcCompat=\"@drawable/default_photo\" />\r\n\r\n    <Button\r\n        android:id=\"@+id/logoutbutton\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"Log Out\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.13\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintVertical_bias=\"0.947\" />\r\n\r\n    <Button\r\n        android:id=\"@+id/findRide\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"Find Ride\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.689\"\r\n        app:layout_constraintStart_toEndOf=\"@+id/logoutbutton\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintVertical_bias=\"0.945\" />\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_main.xml	(revision 2ed2132c0dc3a5f4a722e9d3c32605d0a239b7cd)
++++ app/src/main/res/layout/activity_main.xml	(date 1620099677286)
+@@ -29,14 +29,6 @@
+         app:layout_constraintBottom_toBottomOf="@+id/Name"
+         app:layout_constraintStart_toEndOf="@+id/Name" />
+ 
+-    <ImageView
+-        android:id="@+id/imageView3"
+-        android:layout_width="170dp"
+-        android:layout_height="243dp"
+-        app:layout_constraintStart_toStartOf="@+id/Name"
+-        app:layout_constraintTop_toBottomOf="@+id/Name"
+-        app:srcCompat="@drawable/default_photo" />
+-
+     <Button
+         android:id="@+id/logoutbutton"
+         android:layout_width="wrap_content"
+@@ -61,4 +53,11 @@
+         app:layout_constraintTop_toTopOf="parent"
+         app:layout_constraintVertical_bias="0.945" />
+ 
++    <ImageView
++        android:id="@+id/imageView3"
++        android:layout_width="170dp"
++        android:layout_height="243dp"
++        app:layout_constraintStart_toStartOf="@+id/Name"
++        app:layout_constraintTop_toBottomOf="@+id/Name"
++        app:srcCompat="@drawable/default_photo" />
+ </androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// Top-level build file where you can add configuration options common to all sub-projects/modules.\r\n\r\nbuildscript {\r\n    repositories {\r\n        google()\r\n        jcenter()\r\n        maven {\r\n            url 'https://maven.google.com'\r\n        }\r\n    }\r\n    dependencies {\r\n        classpath 'com.android.tools.build:gradle:4.1.3'\r\n        classpath 'com.google.gms:google-services:4.3.5'\r\n\r\n        // NOTE: Do not place your application dependencies here; they belong\r\n        // in the individual module build.gradle files\r\n    }\r\n}\r\n\r\nallprojects {\r\n    repositories {\r\n        google()\r\n        jcenter()\r\n        \r\n    }\r\n}\r\n\r\ntask clean(type: Delete) {\r\n    delete rootProject.buildDir\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- build.gradle	(revision 2ed2132c0dc3a5f4a722e9d3c32605d0a239b7cd)
++++ build.gradle	(date 1620099677291)
+@@ -7,7 +7,11 @@
+         maven {
+             url 'https://maven.google.com'
+         }
++        maven {
++            url 'http://dl.bintray.com/raphaelbussa/maven'
++        }
+     }
++
+     dependencies {
+         classpath 'com.android.tools.build:gradle:4.1.3'
+         classpath 'com.google.gms:google-services:4.3.5'
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\r\napply plugin: 'com.google.gms.google-services'\r\n\r\nandroid {\r\n    compileSdkVersion 30\r\n    buildToolsVersion \"29.0.2\"\r\n    defaultConfig {\r\n        applicationId \"com.example.myapplication\"\r\n        minSdkVersion 16\r\n        targetSdkVersion 30\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n\r\n\r\n        multiDexEnabled true\r\n\r\n    }\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n}\r\n\r\ndependencies {\r\n\r\n    implementation 'androidx.multidex:multidex:2.0.1'\r\n    implementation fileTree(dir: 'libs', include: ['*.jar'])\r\n    implementation 'androidx.appcompat:appcompat:1.2.0'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'\r\n    implementation 'com.google.android.material:material:1.3.0'\r\n    implementation 'androidx.annotation:annotation:1.1.0'\r\n    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'\r\n    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'\r\n    implementation 'androidx.navigation:navigation-fragment:2.2.2'\r\n    implementation 'androidx.navigation:navigation-ui:2.2.2'\r\n    implementation 'com.google.firebase:firebase-auth:20.0.4'\r\n    // Import the BoM for the Firebase platform\r\n    dependencies {\r\n        // ...\r\n        implementation 'com.android.support.constraint:constraint-layout:2.0.4'\r\n        // Import the Firebase BoM\r\n        implementation platform('com.google.firebase:firebase-bom:27.1.0')\r\n\r\n        // When using the BoM, you don't specify versions in Firebase library dependencies\r\n\r\n        // Declare the dependencies for the desired Firebase products\r\n        // For example, declare the dependencies for Firebase Authentication and Cloud Firestore\r\n        implementation 'com.google.firebase:firebase-auth'\r\n        implementation 'com.google.firebase:firebase-firestore'\r\n    }\r\n\r\n\r\n\r\n    // Declare the dependency for the Firebase Authentication library\r\n    // When using the BoM, you don't specify versions in Firebase library dependencies\r\n\r\n    implementation 'com.google.android.gms:play-services-auth:19.0.0'\r\n    implementation 'com.google.android.gms:play-services-location:18.0.0'\r\n    implementation 'com.google.android.gms:play-services-maps:17.0.1'\r\n\r\n\r\n    // Declare the dependency for the Firebase Authentication library\r\n    // When NOT using the BoM, you must specify versions in Firebase library dependencies\r\n\r\n\r\n    testImplementation 'junit:junit:4.13.2'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.2'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision 2ed2132c0dc3a5f4a722e9d3c32605d0a239b7cd)
++++ app/build.gradle	(date 1620099677276)
+@@ -31,12 +31,19 @@
+     implementation 'androidx.appcompat:appcompat:1.2.0'
+     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+     implementation 'com.google.android.material:material:1.3.0'
+-    implementation 'androidx.annotation:annotation:1.1.0'
+-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+-    implementation 'androidx.navigation:navigation-fragment:2.2.2'
+-    implementation 'androidx.navigation:navigation-ui:2.2.2'
++    implementation 'androidx.annotation:annotation:1.2.0'
++    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
++    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
++    implementation 'androidx.navigation:navigation-fragment:2.3.5'
++    implementation 'androidx.navigation:navigation-ui:2.3.5'
+     implementation 'com.google.firebase:firebase-auth:20.0.4'
++    implementation 'com.google.firebase:firebase-database:19.7.0'
++
++    implementation 'org.slf4j:slf4j-nop:1.7.25'
++
++    dependencies {
++        implementation 'rebus:permission-utils:2.0.7'
++    }
+     // Import the BoM for the Firebase platform
+     dependencies {
+         // ...
+Index: app/src/debug/res/values/google_maps_api.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <!--\r\n    TODO: Before you run your application, you need a Google Maps API key.\r\n\r\n    To get one, follow this link, follow the directions and press \"Create\" at the end:\r\n\r\n    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=F7:20:25:EE:70:ED:4B:39:37:C6:D4:52:C4:DB:3B:AB:EB:24:CD:55%3Bcom.example.myapplication\r\n\r\n    You can also add your credentials to an existing key, using these values:\r\n\r\n    Package name:\r\n    com.example.myapplication\r\n\r\n    SHA-1 certificate fingerprint:\r\n    F7:20:25:EE:70:ED:4B:39:37:C6:D4:52:C4:DB:3B:AB:EB:24:CD:55\r\n\r\n    Alternatively, follow the directions here:\r\n    https://developers.google.com/maps/documentation/android/start#get-key\r\n\r\n    Once you have your key (it starts with \"AIza\"), replace the \"google_maps_key\"\r\n    string in this file.\r\n    -->\r\n    <string name=\"google_maps_key\" templateMergeStrategy=\"preserve\" translatable=\"false\">AIzaSyABaZDwblZofCv9JVyUieHI1ryXQTWVIlo</string>\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/debug/res/values/google_maps_api.xml	(revision 2ed2132c0dc3a5f4a722e9d3c32605d0a239b7cd)
++++ app/src/debug/res/values/google_maps_api.xml	(date 1620099677295)
+@@ -20,5 +20,5 @@
+     Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+     string in this file.
+     -->
+-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyABaZDwblZofCv9JVyUieHI1ryXQTWVIlo</string>
++    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBTgtoslGmcpiyYZmgd5Kl_u3GV0lUmf_c</string>
+ </resources>
+\ No newline at end of file
+Index: app/src/main/java/com/example/myapplication/Register.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.myapplication;\r\n\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.view.View;\r\nimport android.widget.Button;\r\nimport android.widget.EditText;\r\nimport android.widget.Toast;\r\n\r\nimport com.google.android.gms.tasks.OnFailureListener;\r\nimport com.google.android.gms.tasks.OnSuccessListener;\r\nimport com.google.firebase.auth.AuthResult;\r\nimport com.google.firebase.auth.FirebaseAuth;\r\n\r\n\r\npublic class Register extends AppCompatActivity {\r\n    EditText registerfirstname, registerlastname, registeremail, registerpassword, registerconfirmpass;\r\n    Button registerUserButton, registerloginUserButton;\r\n    FirebaseAuth fireAuth;\r\n    User u;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_register);\r\n        //EditText in Register xml\r\n        registerfirstname = findViewById(R.id.firstNameReg);\r\n        registerlastname = findViewById(R.id.lastnameReg);\r\n        registeremail = findViewById(R.id.emailRegister);\r\n        registerpassword = findViewById(R.id.passwordRegister);\r\n        registerconfirmpass = findViewById(R.id.confpassRegister);\r\n\r\n        //Button in Register xml\r\n        registerUserButton = findViewById(R.id.button3);\r\n        registerloginUserButton = findViewById(R.id.loginReg);\r\n\r\n        //firebaseAuth\r\n        fireAuth = FirebaseAuth.getInstance();\r\n\r\n        //if already registered press login in button to go to login screen\r\n        registerloginUserButton.setOnClickListener(new View.OnClickListener(){\r\n\r\n            @Override\r\n            public void onClick(View v) {\r\n                startActivity(new Intent(getApplicationContext(), Login.class));\r\n                finish();\r\n            }\r\n        });\r\n\r\n        registerUserButton.setOnClickListener(new View.OnClickListener() {\r\n\r\n            @Override\r\n            public void onClick(View v) {\r\n                String firstName = registerfirstname.getText().toString();\r\n                String lastName = registerlastname.getText().toString();\r\n                String email = registeremail.getText().toString();\r\n                String password = registerpassword.getText().toString();\r\n                String confpassword = registerconfirmpass.getText().toString();\r\n\r\n\r\n\r\n                //Check if fields are empty before registering is available\r\n\r\n                if (firstName.isEmpty()) {\r\n                    registerfirstname.setError(\"First Name is required\");\r\n                }\r\n\r\n                if (lastName.isEmpty()) {\r\n                    registerlastname.setError(\"Last Name is required\");\r\n                }\r\n\r\n                if (email.isEmpty()) {\r\n                    registeremail.setError(\"Email is required\");\r\n                }\r\n\r\n                if (password.isEmpty()) {\r\n                    registerpassword.setError(\"Password is required\");\r\n                }\r\n\r\n                if (confpassword.isEmpty()) {\r\n                    registerconfirmpass.setError(\"Please confirm password\");\r\n                }\r\n\r\n                if (!password.equals(confpassword)) {\r\n                    registerconfirmpass.setError(\"Passwords Do Not Match\");\r\n                }\r\n\r\n                //if data is valid\r\n\r\n                // add user to database\r\n                Toast.makeText(Register.this,\"Data is Valid\",Toast.LENGTH_SHORT).show();\r\n                try{\r\n                    u = new User(0, confpassword, email, firstName, lastName);\r\n                    Toast.makeText(Register.this, \"User created\", Toast.LENGTH_SHORT).show();\r\n                }\r\n                catch(Exception e){\r\n                    Toast.makeText(Register.this, \"Error creating an user\", Toast.LENGTH_SHORT).show();\r\n                }\r\n                //update to current user\r\n                SharedDBProperties.sharedUser.setEmail(u.getEmail());\r\n                SharedDBProperties.sharedUser.setPassword(u.getPassword());\r\n                SharedDBProperties.sharedUser.setFirstName(firstName);\r\n                SharedDBProperties.sharedUser.setLastName(lastName);\r\n                SharedDBProperties.sharedUser.setPassword(u.getPassword());\r\n\r\n                DatabaseHelper databaseHelper= new DatabaseHelper(Register.this, 3);\r\n\r\n                boolean success = databaseHelper.addUser(u);\r\n                Toast.makeText(Register.this, \"User added to database\", Toast.LENGTH_SHORT).show();\r\n\r\n                // update current user\r\n\r\n                //firebase create user with email and password\r\n                fireAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {\r\n                    @Override\r\n                    public void onSuccess(AuthResult authResult) {\r\n                        startActivity(new Intent(getApplicationContext(),MainActivity.class));\r\n                        finish();\r\n\r\n                    }\r\n                }).addOnFailureListener(new OnFailureListener() {\r\n                    @Override\r\n                    public void onFailure(@NonNull Exception e) {\r\n                        //show error if authentication failed\r\n                        Toast.makeText(Register.this,e.getMessage(),Toast.LENGTH_SHORT).show();\r\n                    }\r\n                });\r\n            }\r\n        });\r\n\r\n\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/myapplication/Register.java	(revision 2ed2132c0dc3a5f4a722e9d3c32605d0a239b7cd)
++++ app/src/main/java/com/example/myapplication/Register.java	(date 1620099677301)
+@@ -67,26 +67,38 @@
+ 
+                 if (firstName.isEmpty()) {
+                     registerfirstname.setError("First Name is required");
++                    registerfirstname.requestFocus();
++                    return;
+                 }
+ 
+                 if (lastName.isEmpty()) {
+                     registerlastname.setError("Last Name is required");
++                    registerlastname.requestFocus();
++                    return;
+                 }
+ 
+                 if (email.isEmpty()) {
+                     registeremail.setError("Email is required");
++                    registeremail.requestFocus();
++                    return;
+                 }
+ 
+                 if (password.isEmpty()) {
+                     registerpassword.setError("Password is required");
++                    registerpassword.requestFocus();
++                    return;
+                 }
+ 
+                 if (confpassword.isEmpty()) {
+                     registerconfirmpass.setError("Please confirm password");
++                    registerconfirmpass.requestFocus();
++                    return;
+                 }
+ 
+                 if (!password.equals(confpassword)) {
+                     registerconfirmpass.setError("Passwords Do Not Match");
++                    registerconfirmpass.requestFocus();
++                    return;
+                 }
+ 
+                 //if data is valid

@@ -1,0 +1,73 @@
+Index: app/src/main/java/com/example/myapplication/MapsActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.myapplication;\r\n\r\nimport android.annotation.SuppressLint;\r\nimport android.os.Bundle;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.fragment.app.FragmentActivity;\r\n\r\nimport com.google.android.gms.maps.GoogleMap;\r\nimport com.google.android.gms.maps.OnMapReadyCallback;\r\nimport com.google.android.gms.maps.SupportMapFragment;\r\n\r\n\r\npublic class MapsActivity extends FragmentActivity implements OnMapReadyCallback {\r\n    boolean isPermissionGranted;\r\n    GoogleMap mGoogleMap;\r\n\r\n    @Override\r\n    protected void onCreate(@Nullable Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_maps);\r\n        checkMyPermissions();\r\n        if(isPermissionGranted){\r\n            SupportMapFragment supportMapFragment =(SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);\r\n            supportMapFragment.getMapAsync(this);\r\n        }\r\n    }\r\n\r\n    private void checkMyPermissions() {\r\n    }\r\n\r\n    @SuppressLint({\"MissingPermissions\", \"MissingPermission\"})\r\n    @Override\r\n    public void onMapReady(@NonNull GoogleMap googleMap) {\r\n    mGoogleMap = googleMap;\r\n    mGoogleMap.setMyLocationEnabled(true);\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/myapplication/MapsActivity.java	(revision 6b947b1dc226fc6f1538e3a7bb5dc1891be02940)
++++ app/src/main/java/com/example/myapplication/MapsActivity.java	(date 1620144096931)
+@@ -1,39 +1,37 @@
+ package com.example.myapplication;
+ 
+-import android.annotation.SuppressLint;
++
++import android.os.Build;
++
+ import android.os.Bundle;
+ 
+-import androidx.annotation.NonNull;
+-import androidx.annotation.Nullable;
+-import androidx.fragment.app.FragmentActivity;
+-
++import com.google.android.gms.common.api.GoogleApiClient;
++import com.google.android.gms.maps.CameraUpdateFactory;
+ import com.google.android.gms.maps.GoogleMap;
+ import com.google.android.gms.maps.OnMapReadyCallback;
+ import com.google.android.gms.maps.SupportMapFragment;
++import com.google.android.gms.maps.model.BitmapDescriptorFactory;
++import com.google.android.gms.maps.model.LatLng;
++import com.google.android.gms.maps.model.Marker;
++import com.google.android.gms.maps.model.MarkerOptions;
++import com.google.android.gms.location.LocationServices;
++
++import android.location.Location;
++import android.Manifest;
++import android.content.pm.PackageManager;
++
++import androidx.annotation.NonNull;
++import androidx.fragment.app.FragmentActivity;
++
++import com.google.android.gms.common.ConnectionResult;
++import com.google.android.gms.location.LocationListener;
++import com.google.android.gms.location.LocationRequest;
+ 
+ 
+-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+-    boolean isPermissionGranted;
+-    GoogleMap mGoogleMap;
++public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
+ 
+-    @Override
+-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+-        super.onCreate(savedInstanceState);
+-        setContentView(R.layout.activity_maps);
+-        checkMyPermissions();
+-        if(isPermissionGranted){
+-            SupportMapFragment supportMapFragment =(SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+-            supportMapFragment.getMapAsync(this);
+-        }
+-    }
+-
+-    private void checkMyPermissions() {
+-    }
+-
+-    @SuppressLint({"MissingPermissions", "MissingPermission"})
+     @Override
+     public void onMapReady(@NonNull GoogleMap googleMap) {
+-    mGoogleMap = googleMap;
+-    mGoogleMap.setMyLocationEnabled(true);
++
+     }
+ }
+\ No newline at end of file
