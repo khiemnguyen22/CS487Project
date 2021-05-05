@@ -177,11 +177,6 @@ public class Login extends AppCompatActivity {
                 });
 
                 if(flag) {
-                    SharedDBProperties.sharedDriver.setEmail(u.getEmail());
-                    SharedDBProperties.sharedDriver.setPassword(u.getPassword());
-                    SharedDBProperties.sharedDriver.setFirstName(u.getFirstName());
-                    SharedDBProperties.sharedDriver.setLastName(u.getLastName());
-                    SharedDBProperties.sharedDriver.setPassword(u.getPassword());
 
                     //update current user
                     SharedDBProperties.sharedUser.setEmail(u.getEmail());
@@ -190,10 +185,19 @@ public class Login extends AppCompatActivity {
                     SharedDBProperties.sharedUser.setLastName(u.getLastName());
                     SharedDBProperties.sharedUser.setPassword(u.getPassword());
 
+                    SharedDBProperties.sharedDriver.setEmail(u.getEmail());
+                    SharedDBProperties.sharedDriver.setPassword(u.getPassword());
+                    SharedDBProperties.sharedDriver.setFirstName(u.getFirstName());
+                    SharedDBProperties.sharedDriver.setLastName(u.getLastName());
+                    SharedDBProperties.sharedDriver.setPassword(u.getPassword());
+
                     boolean newDriver = databaseHelper.addDriver(d);
                     if (newDriver) {
                         Toast.makeText(Login.this, "New Driver", Toast.LENGTH_SHORT).show();
                     }
+
+
+
 
                     startActivity(new Intent(getApplicationContext(),DriverMainActivity.class));
                     finish();

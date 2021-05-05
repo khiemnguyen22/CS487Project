@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,7 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class DriverMainActivity extends AppCompatActivity {
 
     Button logout;
-    Button mapsView;
+    Button getCustomer;
     FirebaseUser user;
     private TextView fullName;
     private String name;
@@ -31,6 +32,8 @@ public class DriverMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_driver_main);
 
         logout = findViewById(R.id.logoutbutton);
+        getCustomer = findViewById(R.id.findRide);
+
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,12 +42,20 @@ public class DriverMainActivity extends AppCompatActivity {
                 finish();
             }
         });
-        mapsView = findViewById(R.id.findRide);
-        mapsView.setOnClickListener(new View.OnClickListener() {
+        getCustomer = findViewById(R.id.findRide);
+        getCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),MapsActivity.class));
-                finish();
+                DatabaseHelper db = new DatabaseHelper(DriverMainActivity.this,4);
+                Driver d = db.returnDriver(SharedDBProperties.sharedUser.getEmail(),SharedDBProperties.sharedUser.getPassword());
+
+                if(d.getLiscensePlate().equals("") | d.getMake().equals("") | d.getModel().equals("") | d.getYear().equals("")){
+                    Toast.makeText(DriverMainActivity.this, "Driver not registered", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+                    finish();
+                }
             }
         });
 
@@ -64,6 +75,9 @@ public class DriverMainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.registerDriver){
+            startActivity(new Intent(getApplicationContext(),RegisterDriver.class));
+        }
         if(item.getItemId() == R.id.resetuserpassword){
             startActivity(new Intent(getApplicationContext(),ResetPassword.class));
         }
@@ -72,9 +86,6 @@ public class DriverMainActivity extends AppCompatActivity {
         }
         if(item.getItemId() == R.id.updateEmailmenu){
             startActivity(new Intent(getApplicationContext(),UpdateEmail.class));
-        }
-        if(item.getItemId() == R.id.registerDriver){
-            startActivity(new Intent(getApplicationContext(),RegisterDriver.class));
         }
         return super.onOptionsItemSelected(item);
     }

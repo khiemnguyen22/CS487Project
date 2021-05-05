@@ -128,7 +128,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return returnU;
     }
 
-    public User returnDriver(String email, String password){
+    public Driver returnDriver(String email, String password){
         Driver returnD = new Driver();
 
         String queryString = "SELECT * FROM " + DRIVER_TABLE + " WHERE "+ COLUMN_USER_EMAIL+" = '"+email+"' AND "
@@ -143,6 +143,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 returnD.setLastName(cursor.getString(2));
                 returnD.setEmail(email);
                 returnD.setPassword(password);
+
+                returnD.setLiscensePlate(cursor.getString(10));
+                returnD.setMake(cursor.getString(7));
+                returnD.setModel(cursor.getString(8));
+                returnD.setYear(cursor.getString(9));
             } while (cursor.moveToNext());
         }
 
@@ -245,7 +250,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         Driver d = (Driver) SharedDBProperties.sharedDriver;
         if( (d.getEmail()).equals(u.getEmail()) ){
-            System.out.println("User is a driver");
+
             cvDriver.put(COLUMN_ID, d.getID());
             cvDriver.put(COLUMN_USER_FIRSTNAME, d.getFirstName());
             cvDriver.put(COLUMN_USER_LASTNAME, d.getLastName());
@@ -263,8 +268,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             long insertDriver = db.update(DRIVER_TABLE,cvDriver,COLUMN_USER_EMAIL+" = '"+ u.getEmail()+"' ;",null);
         }
 
-
-
         cv.put(COLUMN_ID, u.getID());
         cv.put(COLUMN_USER_FIRSTNAME, u.getFirstName());
         cv.put(COLUMN_USER_LASTNAME, u.getLastName());
@@ -281,6 +284,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         else{
             return true;
         }
+    }
+
+    public boolean registerDriver(Driver d,String make, String license, String model, String year){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cvDriver = new ContentValues();
+
+        cvDriver.put(COLUMN_ID, d.getID());
+        cvDriver.put(COLUMN_USER_FIRSTNAME, d.getFirstName());
+        cvDriver.put(COLUMN_USER_LASTNAME, d.getLastName());
+        cvDriver.put(COLUMN_USER_EMAIL, d.getEmail());
+        cvDriver.put(COLUMN_USER_PASSWORD, d.getPassword());
+        cvDriver.put(COLUMN_CREDITCARD, d.getCreditCard());
+        cvDriver.put(COLUMN_BALANCE, d.getBalance());
+
+        cvDriver.put(COLUMN_DRIVER_MAKE, make);
+        cvDriver.put(COLUMN_DRIVER_MODEL, model);
+        cvDriver.put(COLUMN_DRIVER_YEAR, year);
+        cvDriver.put(COLUMN_DRIVER_LICENSEPLATE, license);
+        cvDriver.put(COLUMN_DRIVER_RIDES, d.getRides());
+
+        long register = db.update(DRIVER_TABLE,cvDriver, COLUMN_USER_EMAIL+" = '"+ d.getEmail()+"' ;",null);
+
+        if (register == -1){
+            return false;
+        }
+        else{
+            return true;
+        }
+
     }
 
 }
