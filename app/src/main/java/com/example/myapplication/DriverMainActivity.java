@@ -53,7 +53,7 @@ public class DriverMainActivity extends AppCompatActivity {
                     Toast.makeText(DriverMainActivity.this, "Driver not registered", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+                    startActivity(new Intent(getApplicationContext(), DriverMapsActivity.class));
                     finish();
                 }
             }

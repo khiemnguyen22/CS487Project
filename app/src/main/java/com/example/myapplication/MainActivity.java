@@ -41,6 +41,11 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        //show the database
+        DatabaseHelper db = new DatabaseHelper(MainActivity.this,4);
+        db.getDatabaseName();
+
         mapsView = findViewById(R.id.findRide);
         mapsView.setOnClickListener(new View.OnClickListener() {
             @Override
