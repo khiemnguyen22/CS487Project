@@ -148,8 +148,10 @@ public class Login extends AppCompatActivity {
                 Toast.makeText(Login.this, "Data is Valid", Toast.LENGTH_SHORT).show();
                 try {
                     u = databaseHelper.returnUser(email, password1);
+
                     if(u.getEmail().equals(email)){
                         d = new Driver(u.getID(), u.getPassword(), u.getEmail(), u.getFirstName(), u.getLastName());
+
                     }
                     else{
                         Toast.makeText(Login.this, "no user found", Toast.LENGTH_SHORT).show();

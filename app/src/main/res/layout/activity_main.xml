@@ -61,4 +61,28 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.945" />
 
+    <TextView
+        android:id="@+id/rideHistory"
+        android:layout_width="162dp"
+        android:layout_height="46dp"
+        android:text="Ride History"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.102"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        app:layout_constraintVertical_bias="0.148" />
+
+    <TextView
+        android:id="@+id/accountInfo"
+        android:layout_width="165dp"
+        android:layout_height="49dp"
+        android:text="Account Information"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.108"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rideHistory"
+        app:layout_constraintVertical_bias="0.097" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
