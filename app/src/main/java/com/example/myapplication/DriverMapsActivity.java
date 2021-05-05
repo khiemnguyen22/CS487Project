@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -68,8 +70,28 @@ public class DriverMapsActivity extends AppCompatActivity implements OnMapReadyC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_maps);
 
-
         getLocationPermission();
+
+        if(!SharedDBProperties.destination.equals("")){
+            AlertDialog.Builder builder = new AlertDialog.Builder(DriverMapsActivity.this);
+            builder.setCancelable(true);
+            builder.setTitle("Found Customer");
+            builder.setMessage("Customer "+SharedDBProperties.sharedRide.getRider().getFirstName()+" "+
+                    SharedDBProperties.sharedRide.getRider().getLastName()+", Destination: "+SharedDBProperties.destination);
+            builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+            builder.setNegativeButton("Reject", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            builder.show();
+        }
     }
 
     private void getDeviceLocation(){

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -30,11 +31,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
 
 import org.jetbrains.annotations.NotNull;
 
@@ -42,11 +39,11 @@ import org.jetbrains.annotations.NotNull;
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener{
 
-    FirebaseDatabase mDatabase;
-    DatabaseReference mDatabaseReference;
+
     String name;
     private GoogleMap mMap;
     Button button;
+    EditText editText;
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -66,36 +63,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             mMap.setOnMyLocationButtonClickListener(this);
             mMap.setOnMyLocationClickListener(this);
-            mDatabaseReference.addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                    LatLng newLocation = new LatLng(dataSnapshot.child("Latitude").getValue(Double.class),dataSnapshot.child("Longitude").getValue(Double.class));
-                    mMap.addMarker(new MarkerOptions().position(newLocation).title(name)
-                    );
-                }
 
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                }
-
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                }
-
-
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
         }
 
         }
@@ -118,12 +86,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         getLocationPermission();
+
+        editText = findViewById(R.id.editText);
         button =findViewById(R.id.searchbtn);
 
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedDBProperties.destination = editText.getText().toString();
+
+                DatabaseHelper db = new DatabaseHelper(MapsActivity.this, 4);
+                User u = db.returnUser(SharedDBProperties.sharedUser.getEmail(), SharedDBProperties.sharedUser.getPassword());
+
+                SharedDBProperties.sharedRide.setRider(u);
                 AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
                 builder.setCancelable(true);
                 builder.setTitle("Finding Driver....");
@@ -138,9 +114,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-        name = FirebaseDatabase.getInstance().getReference("User").toString();
-        mDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mDatabase.getReference("Location");
 
 
     }

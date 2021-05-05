@@ -6,4 +6,8 @@ public class SharedDBProperties {
 
     public static Driver sharedDriver = new Driver();
 
+    public static Ride sharedRide = new Ride();
+
+    public static String destination="";
+
 }

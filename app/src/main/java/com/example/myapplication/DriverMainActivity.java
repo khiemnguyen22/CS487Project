@@ -69,6 +69,12 @@ public class DriverMainActivity extends AppCompatActivity {
         DatabaseHelper db = new DatabaseHelper(DriverMainActivity.this,4);
         Driver d = db.returnDriver(SharedDBProperties.sharedUser.getEmail(),SharedDBProperties.sharedUser.getPassword());
 
+        SharedDBProperties.sharedDriver.setModel(d.getModel());
+        SharedDBProperties.sharedDriver.setMake(d.getMake());
+        SharedDBProperties.sharedDriver.setYear(d.getYear());
+        SharedDBProperties.sharedDriver.setLiscensePlate(d.getLiscensePlate());
+
+
         modelView.setText("Car's model: "+ d.getModel());
         makeView.setText("Car's make: " + d.getMake());
         yearView.setText("Car's year: " + d.getYear());

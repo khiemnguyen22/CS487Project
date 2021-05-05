@@ -260,7 +260,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cvDriver.put(COLUMN_BALANCE, d.getBalance());
 
             cvDriver.put(COLUMN_DRIVER_MAKE,d.getMake());
-            cvDriver.put(COLUMN_DRIVER_MODEL, d.getYear());
+            cvDriver.put(COLUMN_DRIVER_MODEL, d.getModel());
             cvDriver.put(COLUMN_DRIVER_YEAR, d.getYear());
             cvDriver.put(COLUMN_DRIVER_LICENSEPLATE, d.getLiscensePlate());
             cvDriver.put(COLUMN_DRIVER_RIDES, d.getRides());
