@@ -49,7 +49,7 @@ public class Driver extends User {
     }
 
     public void setYear(String un){
-        this.year = year;
+        this.year = un;
     }
 
     public String getLiscensePlate(){

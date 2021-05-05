@@ -74,7 +74,7 @@ public class DriverMainActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(),UpdateEmail.class));
         }
         if(item.getItemId() == R.id.registerDriver){
-            startActivity(new Intent(getApplicationContext(), RegisterDriver.class));
+            startActivity(new Intent(getApplicationContext(),RegisterDriver.class));
         }
         return super.onOptionsItemSelected(item);
     }
