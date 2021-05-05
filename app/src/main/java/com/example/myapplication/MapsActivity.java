@@ -7,14 +7,14 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener {
 
     private GoogleMap mMap;
@@ -61,21 +61,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-            public boolean onMyLocationButtonClick() {
-                Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT)
-                        .show();
+    public boolean onMyLocationButtonClick() {
+        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT)
+                .show();
 
-                return false;
-            }
+        return false;
+    }
 
-            @Override
-            public void onMyLocationClick(@NonNull Location location) {
-                Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG)
-                        .show();
+    @Override
+    public void onMyLocationClick(@NonNull Location location) {
+        Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG)
+                .show();
 
-            }
-
-
-
-
+    }
 }
+
+
