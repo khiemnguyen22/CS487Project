@@ -78,13 +78,60 @@
         android:id="@+id/accountInfo"
         android:layout_width="180dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="156dp"
         android:text="Account Information"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.082"
+        app:layout_constraintHorizontal_bias="0.93"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/driverHistory"
-        app:layout_constraintVertical_bias="0.09" />
+        app:layout_constraintTop_toTopOf="@+id/DriverEmail"
+        app:layout_constraintVertical_bias="0.081" />
+
+    <TextView
+        android:id="@+id/makeInfo"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:text="Car's Make"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.93"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/DriverEmail"
+        app:layout_constraintVertical_bias="0.175" />
+
+    <TextView
+        android:id="@+id/modelInfo"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:text="Car's Model"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.93"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/DriverEmail"
+        app:layout_constraintVertical_bias="0.385" />
+
+    <TextView
+        android:id="@+id/licenseInfo"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:text="Car's License Number"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.93"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/DriverEmail"
+        app:layout_constraintVertical_bias="0.27" />
+
+    <TextView
+        android:id="@+id/yearInfo"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:text="Car's Year"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.93"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/DriverEmail"
+        app:layout_constraintVertical_bias="0.48" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

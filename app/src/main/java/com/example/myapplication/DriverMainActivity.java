@@ -21,10 +21,9 @@ public class DriverMainActivity extends AppCompatActivity {
     Button logout;
     Button getCustomer;
     FirebaseUser user;
-    private TextView fullName;
-    private String name;
-    private String email;
-    private TextView emailView;
+    private TextView fullName, emailView, modelView, yearView, licenseView, makeView;
+    private String name, email;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +52,7 @@ public class DriverMainActivity extends AppCompatActivity {
                     Toast.makeText(DriverMainActivity.this, "Driver not registered", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+                    startActivity(new Intent(getApplicationContext(), DriverMapsActivity.class));
                     finish();
                 }
             }
@@ -61,7 +60,19 @@ public class DriverMainActivity extends AppCompatActivity {
 
         fullName = findViewById(R.id.DriverName);
         emailView = findViewById(R.id.DriverEmail);
+        modelView = findViewById(R.id.modelInfo);
+        makeView = findViewById(R.id.makeInfo);
+        yearView = findViewById(R.id.yearInfo);
+        licenseView = findViewById(R.id.licenseInfo);
 
+
+        DatabaseHelper db = new DatabaseHelper(DriverMainActivity.this,4);
+        Driver d = db.returnDriver(SharedDBProperties.sharedUser.getEmail(),SharedDBProperties.sharedUser.getPassword());
+
+        modelView.setText("Car's model: "+ d.getModel());
+        makeView.setText("Car's make: " + d.getMake());
+        yearView.setText("Car's year: " + d.getYear());
+        licenseView.setText("Car's License Number: " + d.getLiscensePlate());
         fullName.setText(SharedDBProperties.sharedDriver.getFirstName() + " "+SharedDBProperties.sharedDriver.getLastName());
         emailView.setText(email);
     }
