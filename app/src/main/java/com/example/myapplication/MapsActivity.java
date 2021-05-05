@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -118,6 +119,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_maps);
         getLocationPermission();
         button =findViewById(R.id.searchbtn);
+
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,6 +143,21 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mDatabaseReference = mDatabase.getReference("Location");
 
 
+    }
+
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.radio_normal:
+                if (checked)
+                    break;
+            case R.id.radio_split:
+                if (checked)
+                    break;
+        }
     }
 
     private void getDeviceLocation(){
