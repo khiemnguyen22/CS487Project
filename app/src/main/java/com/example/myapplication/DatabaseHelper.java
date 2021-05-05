@@ -316,4 +316,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public boolean updateBalance(User u, double newBalance){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+        ContentValues cvDriver = new ContentValues();
+
+        Driver d = (Driver) SharedDBProperties.sharedDriver;
+        if( (d.getEmail()).equals(u.getEmail()) ){
+
+            cvDriver.put(COLUMN_ID, d.getID());
+            cvDriver.put(COLUMN_USER_FIRSTNAME, d.getFirstName());
+            cvDriver.put(COLUMN_USER_LASTNAME, d.getLastName());
+            cvDriver.put(COLUMN_USER_EMAIL, d.getEmail());
+            cvDriver.put(COLUMN_USER_PASSWORD, d.getPassword());
+            cvDriver.put(COLUMN_CREDITCARD, d.getCreditCard());
+            cvDriver.put(COLUMN_BALANCE, newBalance);
+
+            cvDriver.put(COLUMN_DRIVER_MAKE,d.getMake());
+            cvDriver.put(COLUMN_DRIVER_MODEL, d.getYear());
+            cvDriver.put(COLUMN_DRIVER_YEAR, d.getYear());
+            cvDriver.put(COLUMN_DRIVER_LICENSEPLATE, d.getLiscensePlate());
+            cvDriver.put(COLUMN_DRIVER_RIDES, d.getRides());
+
+            long insertDriver = db.update(DRIVER_TABLE,cvDriver,COLUMN_USER_EMAIL+" = '"+ u.getEmail()+"' ;",null);
+        }
+
+        cv.put(COLUMN_ID, u.getID());
+        cv.put(COLUMN_USER_FIRSTNAME, u.getFirstName());
+        cv.put(COLUMN_USER_LASTNAME, u.getLastName());
+        cv.put(COLUMN_USER_EMAIL, u.getEmail());
+        cv.put(COLUMN_USER_PASSWORD, u.getPassword());
+        cv.put(COLUMN_CREDITCARD, u.getCreditCard());
+        cv.put(COLUMN_BALANCE, newBalance);
+
+        long insert = db.update(USER_TABLE,cv, COLUMN_USER_EMAIL+" = '"+ u.getEmail()+"' ;",null);
+
+        if (insert == -1){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
 }

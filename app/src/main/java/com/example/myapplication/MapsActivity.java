@@ -3,10 +3,15 @@ package com.example.myapplication;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,9 +26,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import java.io.IOException;
+import java.util.List;
 
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
@@ -176,5 +186,44 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG)
                 .show();
 
+    }
+
+    public void onSearchClick(View v){
+        switch (v.getId()){
+            case R.id.searchbtn:
+                EditText addressField = (EditText) findViewById(R.id.editText);
+                String address = addressField.getText().toString();
+
+                List<Address> addressList = null;
+                MarkerOptions userMarkerOptions = new MarkerOptions();
+
+                if(!TextUtils.isEmpty(address)){
+                    Geocoder geocoder = new Geocoder(this);
+                    try{
+                        addressList = geocoder.getFromLocationName(address, 6);
+
+                        if(addressList != null){
+                            for (int i = 0; i < addressList.size(); i++) {
+                                Address userAddress = addressList.get(i);
+                                LatLng latLng = new LatLng(userAddress.getLatitude(), userAddress.getLongitude());
+                                userMarkerOptions.position(latLng);
+                                userMarkerOptions.title("user Current Location");
+                                userMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+
+                                mMap.addMarker(userMarkerOptions);
+                                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                                mMap.animateCamera(CameraUpdateFactory.zoomBy(10));
+                            }
+                        }else{
+                            Toast.makeText(this, "Destination not found",Toast.LENGTH_SHORT).show();
+                        }
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+                } else{
+                    Toast.makeText(this, "Please enter a destination",Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
     }
 }
