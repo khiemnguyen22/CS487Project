@@ -77,7 +77,8 @@ public class DriverMapsActivity extends AppCompatActivity implements OnMapReadyC
             builder.setCancelable(true);
             builder.setTitle("Found Customer");
             builder.setMessage("Customer "+SharedDBProperties.sharedRide.getRider().getFirstName()+" "+
-                    SharedDBProperties.sharedRide.getRider().getLastName()+", Destination: "+SharedDBProperties.destination);
+                    SharedDBProperties.sharedRide.getRider().getLastName()+"\n Destination: "+SharedDBProperties.destination
+                    +"\n " + SharedDBProperties.pick_up);
             builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {

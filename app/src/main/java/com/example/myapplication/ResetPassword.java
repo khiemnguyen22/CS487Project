@@ -51,7 +51,7 @@ public class ResetPassword extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(ResetPassword.this, "Password Updated",Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                        startActivity(new Intent(getApplicationContext(),Login.class));
                         finish();
                     }
                 }).addOnFailureListener(new OnFailureListener() {

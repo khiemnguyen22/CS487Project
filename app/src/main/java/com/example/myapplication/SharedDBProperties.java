@@ -10,4 +10,6 @@ public class SharedDBProperties {
 
     public static String destination="";
 
+    public static String pick_up = "";
+
 }

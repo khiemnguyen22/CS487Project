@@ -149,6 +149,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             Log.d(TAG, "onComplete: found location!");
                             Location currentLocation = (Location) task.getResult();
 
+                            SharedDBProperties.pick_up ="pick up: \n Latitude: "+ currentLocation.getLatitude() +
+                                    "\n Longitude: "+currentLocation.getLongitude();
 
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
                                     DEFAULT_ZOOM);

@@ -97,6 +97,7 @@ public class DriverMainActivity extends AppCompatActivity {
         }
         if(item.getItemId() == R.id.resetuserpassword){
             startActivity(new Intent(getApplicationContext(),ResetPassword.class));
+            finish();
         }
         if(item.getItemId() == R.id.updateCreditCard){
             startActivity(new Intent(getApplicationContext(),UpdateCreditCard.class));

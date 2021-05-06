@@ -59,7 +59,7 @@ public class UpdateEmail extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(UpdateEmail.this, "Email Updated",Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                        startActivity(new Intent(getApplicationContext(),Login.class));
                         finish();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
